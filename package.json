@@ -13,7 +13,10 @@
 		"dev": "vite",
 		"format": "biome format --write ./",
 		"lint": "biome check ./",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"test": "pnpm run test:biome && pnpm run test:vitest run",
+		"test:biome": "biome ci ./",
+		"test:vitest": "vitest"
 	},
 	"dependencies": {
 		"cvu": "^0.2.0",
@@ -27,6 +30,7 @@
 		"@vitejs/plugin-react-swc": "^3.3.2",
 		"cspell": "^7.3.6",
 		"typescript": "^5.2.2",
-		"vite": "^4.4.9"
+		"vite": "^4.4.9",
+		"vitest": "^0.34.4"
 	}
 }
