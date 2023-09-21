@@ -1,5 +1,6 @@
 import { type FormEventHandler, useCallback, useRef } from 'react';
-import { EmailData } from '../types';
+import { EmailData } from '../../types';
+import { useFetchEmailValidation } from './useFetchEmailValidation';
 
 interface LookupFormProps {
 	/**
@@ -13,6 +14,20 @@ export const LookupForm = ({
 }: LookupFormProps): JSX.Element => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 
+	const onAddToResponses = useCallback(
+		(data: EmailData) => {
+			onEmailLookupComplete(data);
+
+			if (emailInputRef.current) {
+				emailInputRef.current.value = '';
+			}
+		},
+		[onEmailLookupComplete],
+	);
+
+	const [getEmailValidation, isFetching] =
+		useFetchEmailValidation(onAddToResponses);
+
 	const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
 		(event) => {
 			event.preventDefault();
@@ -21,6 +36,7 @@ export const LookupForm = ({
 				return;
 			}
 
+			// No point in processing input that the browser even knows is not a valid email format.
 			if (emailInputRef.current.validity.valid) {
 				const data = new FormData(event.currentTarget);
 
@@ -30,12 +46,12 @@ export const LookupForm = ({
 					return;
 				}
 
-				console.log('email', email);
+				void getEmailValidation(email);
 			}
 
 			return;
 		},
-		[],
+		[getEmailValidation],
 	);
 
 	return (
@@ -48,15 +64,16 @@ export const LookupForm = ({
 					autoCapitalize="off"
 					autoComplete="off"
 					autoCorrect="off"
-					type="email"
-					name="email"
+					className="peer relative col-start-1 row-start-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 disabled:cursor-not-allowed"
+					disabled={isFetching}
 					id="email"
-					className="peer relative col-start-1 row-start-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+					name="email"
 					placeholder="Enter an email"
 					ref={emailInputRef}
+					type="email"
 				/>
 				<div
-					className="col-start-1 col-end-3 row-start-1 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 peer-focus:ring-2 peer-focus:ring-indigo-600 peer-invalid:ring-red-600"
+					className="col-start-1 col-end-3 row-start-1 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 peer-focus:ring-2 peer-focus:ring-indigo-600 peer-invalid:ring-red-600 peer-disabled:bg-slate-50 peer-disabled:ring-slate-200 peer-disabled:text-slate-400"
 					aria-hidden="true"
 				/>
 				{/* <div className="col-start-2 row-start-1 flex items-center">
@@ -79,10 +96,11 @@ export const LookupForm = ({
 			</div>
 			<div className="mt-3 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
 				<button
+					className="block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed"
+					disabled={isFetching}
 					type="submit"
-					className="block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 				>
-					Validate
+					{isFetching ? 'Loading...' : 'Validate'}
 				</button>
 			</div>
 		</form>

@@ -4,19 +4,24 @@ import { LookupForm } from './LookupForm';
 import { LookupResults } from './LookupResults';
 
 export const LookupView = (): JSX.Element => {
-	const [results, setResults] = useState<EmailData[]>([
-		// {
-		// 	disposable: false,
-		// 	dns: true,
-		// 	domain: 'daxos.com',
-		// 	format: true,
-		// 	email: 'eric@daxos.com',
-		// },
-	]);
+	const [results, setResults] = useState<EmailData[]>([]);
 
+	/**
+	 * The function to be called to add the result to the beginning of the results array.
+	 *
+	 * We are adding the result to the beginning of the array so that the most
+	 * recent result is at the top of the list.
+	 */
 	const onEmailLookupComplete = useCallback((data: EmailData) => {
 		setResults((prevResults) => {
-			return [data, ...prevResults];
+			return [
+				data,
+				// We don't want duplicates for the same email address.
+				// So we filter out any previous results that have the same email address.
+				...prevResults.filter((result) => {
+					return result.email !== data.email;
+				}),
+			];
 		});
 	}, []);
 
