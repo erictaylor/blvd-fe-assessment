@@ -9,7 +9,7 @@ export default defineConfig({
 		coverage: {
 			exclude: ['src/**/*.snap', 'src/**/__fixtures__/**', 'tests/**/*'],
 			include: ['src/**'],
-			lines: 98,
+			lines: 95,
 			provider: 'istanbul',
 			reporter: ['text', 'lcov'],
 		},

@@ -7,7 +7,7 @@
 // }
 
 export interface EmailResponse {
-	format: true;
+	format: boolean;
 	alias?: boolean;
 	disposable?: boolean;
 	domain?: string;

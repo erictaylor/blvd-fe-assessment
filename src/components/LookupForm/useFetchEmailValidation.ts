@@ -1,17 +1,6 @@
 import { useCallback, useState } from 'react';
-import type { EmailData, EmailResponse } from '../../types';
-
-const fetchEmailValidation = async (email: string): Promise<EmailResponse> => {
-	const response = await fetch(`https://disify.com/api/email/${email}`);
-
-	if (!response.ok) {
-		throw new Error('Response was not okay');
-	}
-
-	const data = (await response.json()) as EmailResponse;
-
-	return data;
-};
+import type { EmailData } from '../../types';
+import { fetchEmailValidation } from './utils';
 
 /**
  * A custom hook that returns a function to fetch email validation data and a boolean indicating if the request is currently fetching
@@ -29,9 +18,9 @@ export const useFetchEmailValidation = (
 			setIsFetching(true);
 
 			fetchEmailValidation(email)
-				.then((response) => {
+				.then((data) => {
 					onAddToResponses({
-						...response,
+						...data,
 						email,
 					});
 				})

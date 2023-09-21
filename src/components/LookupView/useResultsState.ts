@@ -1,9 +1,15 @@
 import { useCallback, useState } from 'react';
-import type { EmailData } from '../types';
-import { LookupForm } from './LookupForm';
-import { LookupResults } from './LookupResults';
+import type { EmailData } from '../../types';
 
-export const LookupView = (): JSX.Element => {
+/**
+ * The hook that manages lookup results state, and the logic for adding new results.
+ *
+ * Results are added to the beginning of the results array, and duplicates for addresses are removed.
+ */
+export const useResultsState = (): [
+	results: readonly EmailData[],
+	onEmailLookupComplete: (data: EmailData) => void,
+] => {
 	const [results, setResults] = useState<EmailData[]>([]);
 
 	/**
@@ -25,23 +31,5 @@ export const LookupView = (): JSX.Element => {
 		});
 	}, []);
 
-	return (
-		<div className="mx-auto max-w-md sm:max-w-3xl">
-			<div>
-				<div className="text-center">
-					<h2 className="mt-2 text-base font-semibold leading-6 text-gray-900">
-						Validate email addresses
-					</h2>
-					<p className="mt-1 text-sm text-gray-500">
-						Checks if an email is formatted correctly, is disposable, and if it
-						has valid MX records.
-					</p>
-				</div>
-
-				<LookupForm onEmailLookupComplete={onEmailLookupComplete} />
-			</div>
-
-			<LookupResults results={results} />
-		</div>
-	);
+	return [results, onEmailLookupComplete];
 };

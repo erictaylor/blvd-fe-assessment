@@ -61,7 +61,7 @@ export const LookupForm = ({
 	return (
 		<form className="mt-6 sm:flex sm:items-center" onSubmit={handleSubmit}>
 			<label htmlFor="email" className="sr-only">
-				Email addresses
+				Email address
 			</label>
 			<div className="grid grid-cols-1 sm:flex-auto">
 				<input

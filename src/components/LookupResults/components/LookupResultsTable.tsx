@@ -1,4 +1,5 @@
 import type { EmailData } from '../../../types';
+import { LEGEND_VALUES } from '../constants';
 import { LookupResultsTableLegend } from './LookupResultsTableLegend';
 
 interface LookupResultsTableProps {
@@ -62,28 +63,38 @@ export const LookupResultsTable = ({
 										</td>
 										<td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 											{dns ? (
-												<span title="Valid MX record">✅</span>
+												<span title="Valid MX record">
+													{LEGEND_VALUES.DNS_VALID}
+												</span>
 											) : (
-												<span title="No valid MX record">⛔️</span>
+												<span title="No valid MX record">
+													{LEGEND_VALUES.DNS_INVALID}
+												</span>
 											)}
 										</td>
 										<td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 											{format ? (
 												''
 											) : (
-												<span title="Invalid email format">👎</span>
+												<span title="Invalid email format">
+													{LEGEND_VALUES.FORMAT_INVALID}
+												</span>
 											)}
 										</td>
 										<td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 											{disposable ? (
-												<span title="Known disposable address">🚮</span>
+												<span title="Known disposable address">
+													{LEGEND_VALUES.DISPOSABLE}
+												</span>
 											) : (
 												''
 											)}
 										</td>
 										<td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 											{alias ? (
-												<span title="Is an aliased address">Y</span>
+												<span title="Is an aliased address">
+													{LEGEND_VALUES.ALIAS}
+												</span>
 											) : (
 												''
 											)}
