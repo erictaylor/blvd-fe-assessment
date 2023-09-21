@@ -13,6 +13,12 @@ const fetchEmailValidation = async (email: string): Promise<EmailResponse> => {
 	return data;
 };
 
+/**
+ * A custom hook that returns a function to fetch email validation data and a boolean indicating if the request is currently fetching
+ *
+ * @param onAddToResponses a callback function that will be called when the email validation response is received
+ * @returns a tuple containing the getEmailValidation function and a boolean indicating if the request is currently fetching
+ */
 export const useFetchEmailValidation = (
 	onAddToResponses: (data: EmailData) => void,
 ): [getEmailValidation: (email: string) => void, isFetching: boolean] => {

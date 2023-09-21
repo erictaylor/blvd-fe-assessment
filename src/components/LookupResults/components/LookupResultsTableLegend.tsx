@@ -1,3 +1,8 @@
+/**
+ * The legend for the LookupResultsTable legend.
+ * 
+ * Helps explain what the icons on the table represent.
+ */
 export const LookupResultsTableLegend = (): JSX.Element => {
 	return (
 		<div className="mt-8 w-full border-t border-gray-300 pt-8 text-xs text-gray-400">

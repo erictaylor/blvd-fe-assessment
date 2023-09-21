@@ -9,6 +9,10 @@ interface LookupFormProps {
 	onEmailLookupComplete: (data: EmailData) => void;
 }
 
+/**
+ * Component used to capture user input of an email address
+ * to look up and validate. Submits via a form handler for better accessibility.
+ */
 export const LookupForm = ({
 	onEmailLookupComplete,
 }: LookupFormProps): JSX.Element => {

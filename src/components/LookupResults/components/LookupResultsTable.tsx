@@ -5,6 +5,9 @@ interface LookupResultsTableProps {
 	results: readonly EmailData[];
 }
 
+/**
+ * Displays a table of previously looked up email addresses and their validation results.
+ */
 export const LookupResultsTable = ({
 	results,
 }: LookupResultsTableProps): JSX.Element => {
